@@ -1,0 +1,7 @@
+name 'testweb'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures testweb'
+long_description 'Installs/Configures testweb'
+version '0.1.0'

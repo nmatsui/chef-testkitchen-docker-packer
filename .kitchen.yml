@@ -3,13 +3,19 @@ driver:
   name: docker
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
 
 platforms:
   - name: ubuntu-14.04
   - name: centos-7.1
+    driver_config:
+      image: testweb/centos7
+      privileged: true
+      run_command: /sbin/init; sleep 3
+  - name: centos-6.6
 
 suites:
   - name: default
     run_list:
+      - recipe[testweb]
     attributes:

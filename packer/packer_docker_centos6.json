@@ -1,0 +1,31 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "centos:6",
+      "export_path": "image.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "yum -y update",
+        "yum install -y sudo",
+        "sed -i -e 's/^Defaults    requiretty/Defaults   !requiretty/g' /etc/sudoers"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "run_list": ["testweb::default"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-import",
+      "repository": "testweb/packer-docker-centos6",
+      "tag": "0.1"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "centos:7",
+      "export_path": "image.tar",
+      "run_command": [
+        "--privileged",
+        "-d",
+        "{{.Image}}",
+        "/sbin/init"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "yum -y update",
+        "yum install -y sudo initscripts",
+        "sed -i -e 's/^Defaults    requiretty/Defaults   !requiretty/g' /etc/sudoers"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "run_list": ["testweb::default"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-import",
+      "repository": "testweb/packer-docker-centos7",
+      "tag": "0.1"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:14.04",
+      "export_path": "image.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update -y",
+        "apt-get install -y curl"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "run_list": ["testweb::default"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-import",
+      "repository": "testweb/packer-docker-ubuntu14.04",
+      "tag": "0.1"
+    }
+  ]
+}

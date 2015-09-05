@@ -6,7 +6,7 @@ when "rhel", "fedora"
   default["pkg"]["httpd"]  = "httpd"
   default["pkg"]["php"]    = "php"
 when "debian"
-  default["pkg"]["update"] = "apt-get update -y"
+  default["pkg"]["update"] = "apt-get update"
   default["pkg"]["httpd"]  = "apache2"
   default["pkg"]["php"]    = "php5"
 else

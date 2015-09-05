@@ -1,17 +1,20 @@
 require 'spec_helper'
 
-pkg = /redhat/i =~ os[:family] ? "httpd" : "apache2"
+httpd, php = /redhat/i =~ os[:family] ? ["httpd", "php"]
+                                      : ["apache2", "php5"]
 
-describe package(pkg) do
-  it { should be_installed }
+[httpd, php].each do |pkg|
+  describe package(pkg) do
+    it { should be_installed }
+  end
 end
 
-describe service(pkg) do
+describe service(httpd) do
   it { should be_enabled }
   it { should be_running }
 end
 
-describe process(pkg) do
+describe process(httpd) do
   it { should be_running }
 end
 
